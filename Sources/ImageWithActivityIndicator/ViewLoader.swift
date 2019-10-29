@@ -9,6 +9,7 @@
 import SwiftUI
 
 @available(iOS 13.0, *)
+@available(watchOS 6.0, *)
 public class ViewLoader: ObservableObject {
 
     @Published var data = Data()

@@ -7,6 +7,7 @@
 //
 import SwiftUI
 
+#if os(iOS)
 @available(iOS 13.0, *)
 public struct ActivityIndicator: UIViewRepresentable {
     
@@ -20,3 +21,4 @@ public struct ActivityIndicator: UIViewRepresentable {
         uiView.startAnimating()
     }
 }
+#endif
