@@ -7,6 +7,7 @@
 
 @available(iOS 13.0, *)
 @available(watchOS 6.0, *)
+@available(OSX 10.15, *)
 public struct ViewLoaders {
     var loaders: [ViewLoader] = []
     init(urls: [String]) {

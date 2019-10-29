@@ -7,8 +7,9 @@
 //
 import SwiftUI
 
-#if os(iOS)
+#if !os(watchOS)
 @available(iOS 13.0, *)
+@available(OSX 10.15, *)
 public struct ActivityIndicator: UIViewRepresentable {
     
     let style: UIActivityIndicatorView.Style

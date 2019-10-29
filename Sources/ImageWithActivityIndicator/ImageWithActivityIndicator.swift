@@ -11,8 +11,9 @@ import SwiftUI
 
 @available(iOS 13.0, *)
 @available(watchOS 6.0, *)
+@available(OSX 10.15, *)
 public struct ViewWithActivityIndicator<Content:View> : View {
-    #if os(iOS)
+    #if !os(watchOS)
     private let style: UIActivityIndicatorView.Style = .medium
     #endif
 
@@ -38,7 +39,7 @@ public struct ViewWithActivityIndicator<Content:View> : View {
                     }
                     
                     if showActivityIndicator {
-                        #if os(iOS)
+                        #if !os(watchOS)
                         ActivityIndicator(style: .large)
                         #endif
                     }
@@ -61,6 +62,7 @@ public struct ViewWithActivityIndicator<Content:View> : View {
 struct ImageWithActivityIndicator_Previews: PreviewProvider {
     @available(iOS 13.0, *)
     @available(watchOS 6.0, *)
+    @available(OSX 10.15, *)
     static var previews: some View {
         Text("not used")
     }
