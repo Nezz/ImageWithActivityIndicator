@@ -20,10 +20,12 @@ public struct ViewWithActivityIndicator<Content:View> : View {
     @ObservedObject private var viewLoader:ViewLoader
     private var content: () -> Content
     private let placeHolder:String
+    private let aspectRatioHint:CGFloat
     private let showActivityIndicator:Bool
 
-    public init(placeHolder: String = "",showActivityIndicator:Bool = true, viewLoader:ViewLoader, @ViewBuilder _ content: @escaping () -> Content){
+    public init(placeHolder: String = "", aspectRatioHint: CGFloat = 1, showActivityIndicator:Bool = true, viewLoader:ViewLoader, @ViewBuilder _ content: @escaping () -> Content){
         self.placeHolder = placeHolder
+        self.aspectRatioHint = aspectRatioHint
         self.showActivityIndicator = showActivityIndicator
         self.viewLoader = viewLoader
         self.content = content
@@ -32,7 +34,12 @@ public struct ViewWithActivityIndicator<Content:View> : View {
     public var body: some View {
             ZStack(){
                 if  (viewLoader.data.isEmpty) {
-                    if (placeHolder != "") {
+                    if (placeHolder == "") {
+                        Rectangle()
+                            .fill(Color.white)
+                            .aspectRatio(self.aspectRatioHint, contentMode: .fit)
+                    }
+                    else {
                         Image(placeHolder)
                             .resizable()
                             .scaledToFit()
@@ -44,7 +51,7 @@ public struct ViewWithActivityIndicator<Content:View> : View {
                         #endif
                     }
                 }
-                else{
+                else {
                     content()
                 }
             }
@@ -60,11 +67,20 @@ public struct ViewWithActivityIndicator<Content:View> : View {
 #if DEBUG
 
 struct ImageWithActivityIndicator_Previews: PreviewProvider {
+    static let loader = ViewLoader(url: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/300px-Apple_logo_black.svg.png")
+    
     @available(iOS 13.0, *)
     @available(watchOS 6.0, *)
     @available(OSX 10.15, *)
     static var previews: some View {
-        Text("not used")
+        VStack {
+            ViewWithActivityIndicator(aspectRatioHint: 300 / 356, viewLoader: loader) {
+                Image(uiImage: UIImage(data: loader.getData()) ?? UIImage())
+            }
+            ViewWithActivityIndicator(viewLoader: ViewLoader(url: "foo")) {
+                Image(uiImage: UIImage())
+            }
+        }
     }
 }
 #endif
